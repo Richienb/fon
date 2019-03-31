@@ -76,18 +76,12 @@ export class Fon {
             // Request filesystem access
             this.requestFileSystem(this.method, this.size, fs => fs.root.getFile(dir, {
                 create: false
-            }, (fileEntry, dirEntry) => {
+            }, fileEntry => {
                 // If directory is file
                 if (fileEntry.isFile) fileEntry.remove(resolve(), e => reject(e))
 
-                // If directory is folder
-                else if (dirEntry.isDirectory) {
-                    const dirReader = dirEntry.createReader();
-                    dirEntry.removeRecursively(resolve(), e => reject(e));
-                }
-
-                // If neither file nor folder
-                else reject(new TypeError("Invalid object type."))
+                // If directory is not a file
+                else getDirectory(dir, {create: false}, dirEntry => dirEntry.removeRecursively(resolve(), e => reject(e))
 
             }, e => reject(e)))
         )
