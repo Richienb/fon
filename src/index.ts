@@ -44,7 +44,7 @@ export class Fon {
      * @param {string} method - The method of storage to use. Can be "persistent" or "temporary". Default is "temporary".
      * @param {number} size - The size of storage to use in megabytes. Default is 10.
      */
-    constructor(method: string = "TEMPORARY", size: number = 10) {
+    constructor(method: string = "TEMPORARY", size: number = 10): void {
         // Set method according to function input
         this.method = method.toUpperCase() === "PERSISTENT" ? window.PERSISTENT : window.TEMPORARY
 
@@ -61,9 +61,6 @@ export class Fon {
 
         // Save the true value
         this.size = size
-
-        // Return the size
-        return size
     }
 
     /**
@@ -71,7 +68,7 @@ export class Fon {
      * @method
      * @param {string} dir - The directory of the file or folder to remove.
      */
-    remove(dir: string) {
+    remove(dir: string): Promise<void> {
         return new Promise((resolve, reject) =>
             // Request filesystem access
             this.requestFileSystem(this.method, this.size, fs => fs.root.getFile(dir, {
@@ -81,7 +78,7 @@ export class Fon {
                 if (fileEntry.isFile) fileEntry.remove(resolve(), e => reject(e))
 
                 // If directory is not a file
-                else getDirectory(dir, {create: false}, dirEntry => dirEntry.removeRecursively(resolve(), e => reject(e))
+                else fs.root.getDirectory(dir, {create: false}, dirEntry => dirEntry.removeRecursively(resolve(), e => reject(e))
 
             }, e => reject(e)))
         )
@@ -93,7 +90,7 @@ export class Fon {
      * @param {string} dir - The directory of the file or folder to rename.
      * @param {string} dir - The new name of the file or folder.
      */
-    rename(dir: string, newdir: string) {
+    rename(dir: string, newdir: string): Promise<void> {
         return new Promise((resolve, reject) =>
             // Request filesystem access
             this.requestFileSystem(this.method, this.size, fs =>
@@ -112,7 +109,7 @@ export class Fon {
      * @param {string} dir - The directory of the file or folder to move.
      * @param {string} dest - The destination directory.
      */
-    move(dir: string, dest: string) {
+    move(dir: string, dest: string): Promise<void> {
         return new Promise((resolve, reject) =>
             // Request filesystem access
             this.requestFileSystem(this.method, this.size, fs =>
@@ -131,7 +128,7 @@ export class Fon {
      * @param {string} dir - The directory of the file or folder to move.
      * @param {string} dest - The destination directory.
      */
-    createDir(dir: string) {
+    createDir(dir: string): Promise<void> {
         return new Promise((resolve, reject) => {
 
             const createDir = (rootDirEntry, folders) => {
@@ -156,7 +153,7 @@ export class Fon {
      * @method
      * @param {string} dir - The directory to scan.
      */
-    readDir(dir: string) {
+    readDir(dir: string): Promise<string[]> {
         return new Promise((resolve, reject) => {
 
             const toArray = (list) => Array.prototype.slice.call(list || [], 0);
@@ -189,7 +186,7 @@ export class Fon {
      * @method
      * @param {string} dir - The file to read.
      */
-    readFile(dir: string) {
+    readFile(dir: string): Promise<string | ArrayBuffer> {
         return new Promise((resolve, reject) => {
             // Request filesystem access
             this.requestFileSystem(this.method, this.size, fs =>
@@ -218,7 +215,7 @@ export class Fon {
      * @param {string} content - The content to write.
      * @param {string} dir - The position in the file to start writing. The start is 0. Negative numbers start from the end. Default is 0.
      */
-    writeFile(dir: string, content: string, position: number = 0) {
+    writeFile(dir: string, content: string, position: number = 0): Promise<void> {
         return new Promise((resolve, reject) => {
             // Request filesystem access
             this.requestFileSystem(this.method, this.size, fs =>
@@ -249,9 +246,7 @@ export class Fon {
                         // Write to the file
                         fileWriter.write(blob);
 
-                    }, e => reject(e))
-
-                    , e => reject(e)), e => reject(e));
+                    }, e => reject(e)), e => reject(e)), e => reject(e));
         })
     }
 }
