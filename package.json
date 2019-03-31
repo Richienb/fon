@@ -1,0 +1,32 @@
+{
+  "name": "fon",
+  "version": "1.0.0",
+  "main": "./lib/index.js",
+  "repository": "https://github.com/richienb/fon",
+  "author": "Richie Bendall <richiebendall@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^5.16.0",
+    "eslint-config-google": "^0.12.0",
+    "jsdoc": "^3.5.5",
+    "rimraf": "^2.6.3",
+    "ts-node": "^8.0.3",
+    "typescript": "^3.4.1"
+  },
+  "scripts": {
+    "build:commonjs": "rimraf lib && tsc --target es5 --lib es6,dom --outDir lib --module commonjs --declaration",
+    "build:es": "rimraf es && tsc --target es6 --lib es6,dom --outDir es --module es6",
+    "docs": "jsdoc src",
+    "build": "yarn build:commonjs && yarn build:es && yarn docs",
+    "lint": "eslint --color src/*",
+    "ts": "ts-node src/",
+    "prepublishOnly": "yarn build"
+  },
+  "files": [
+    "es",
+    "lib"
+  ],
+  "types": "./lib/index.d.ts",
+  "jsnext:main": "./es/index.js",
+  "module": "./es/index.js"
+}

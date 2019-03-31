@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "lib": [
+      "es6"
+    ],
+    "alwaysStrict": true,
+    "strictNullChecks": true,
+    "defaultSeverity": "warning"    
+  },
+  "files": [
+    "src/index.ts"
+  ]
+}
