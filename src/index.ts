@@ -30,7 +30,7 @@
  */
 export class Fon {
     // Method storage
-    method;
+    method: any;
 
     // Storage size
     size: number;
