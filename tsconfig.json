@@ -1,13 +1,27 @@
 {
-  "compilerOptions": {
-    "lib": [
-      "es6"
+    "compileOnSave": true,
+    "defaultSeverity": "warning",
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "es5",
+        "noImplicitAny": false,
+        "alwaysStrict": true,
+        "strictNullChecks": true,
+        "preserveConstEnums": true,
+        "sourceMap": true,
+        "moduleResolution": "Node",
+        "lib": [
+            "dom",
+            "es2015",
+            "es5",
+            "es6"
+        ]
+    },
+    "include": [
+        "",
+        "src/**/*"
     ],
-    "alwaysStrict": true,
-    "strictNullChecks": true,
-    "defaultSeverity": "warning"    
-  },
-  "files": [
-    "src/index.ts"
-  ]
+    "exclude": [
+        "./node_modules"
+    ]
 }
